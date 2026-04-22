@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>С Днём Рождения</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ff9ecf, #b58cff, #8cc8ff);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+      animation: pulse 4s infinite alternate;
+    }
+
+    .glow1 {
+      width: 300px;
+      height: 300px;
+      background: #ff66b2;
+      top: 50px;
+      left: 50px;
+    }
+
+    .glow2 {
+      width: 350px;
+      height: 350px;
+      background: #66a3ff;
+      bottom: 50px;
+      right: 50px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(15px);
+      border-radius: 40px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+      border: 1px solid rgba(255,255,255,0.3);
+      position: relative;
+      z-index: 2;
+    }
+
+    .header {
+      text-align: center;
+      padding: 80px 20px;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .header h1 {
+      font-size: 64px;
+      color: white;
+      margin-bottom: 20px;
+      animation: bounce 2s infinite;
+    }
+
+    .header p {
+      font-size: 24px;
+      color: rgba(255,255,255,0.9);
+      max-width: 700px;
+      margin: auto;
+      line-height: 1.6;
+    }
+
+    .tags {
+      margin-top: 30px;
+    }
+
+    .tag {
+      display: inline-block;
+      margin: 10px;
+      padding: 12px 20px;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border-radius: 30px;
+      font-size: 18px;
+    }
+
+    .photos {
+      padding: 50px 30px;
+      text-align: center;
+    }
+
+    .photos h2 {
+      color: white;
+      font-size: 38px;
+      margin-bottom: 40px;
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+
+    /*.photo-box {
+      height: 280px;
+      background: rgba(255,255,255,0.15);
+      border: 3px dashed rgba(255,255,255,0.5);
+      border-radius: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      transition: 0.3s;
+
+
+      
+     
+    }*/
+
+    .photo-box {
+    height: 350px;
+    background: rgba(255, 255, 255, 0.15);
+    /*border: 3px dashed rgba(255, 255, 255, 0.5);*/
+    border-radius: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+   
+    overflow: hidden;
+    transition: 0.3s;}
+
+    .photo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    display: block;   
+}
+
+    .photo-box:hover {
+      transform: scale(1.05);
+      background: rgba(255,255,255,0.2);
+    }
+
+    .photo-box span {
+      font-size: 60px;
+      margin-bottom: 15px;
+    }
+
+    .message {
+      margin: 0 30px 50px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 30px;
+      padding: 40px;
+      text-align: center;
+      color: white;
+    }
+
+    .message h3 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    .message p {
+      font-size: 20px;
+      line-height: 1.8;
+    }
+
+    .decor {
+      position: absolute;
+      font-size: 50px;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .d1 { top: 100px; left: 20%; }
+    .d2 { top: 180px; right: 20%; }
+    .d3 { bottom: 100px; left: 25%; }
+    .d4 { bottom: 150px; right: 25%; }
+
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.2); }
+    }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+/* Контейнер для падающих элементов */
+.falling-emoji {
+    position: fixed;
+    top: -50px; /* Появляются за пределами экрана сверху */
+    z-index: 9999;
+    user-select: none;
+    pointer-events: none; /* Пропускают клики сквозь себя */
+    animation: fall linear forwards;
+    filter: drop-shadow(0 0 5px rgba(255, 100, 100, 0.4));
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0) rotate(0deg) translateX(0);
+        opacity: 1;
+    }
+    25% {
+        transform: translateY(25vh) rotate(90deg) translateX(20px);
+    }
+    50% {
+        transform: translateY(50vh) rotate(180deg) translateX(-20px);
+    }
+    75% {
+        transform: translateY(75vh) rotate(270deg) translateX(20px);
+    }
+    100% {
+        transform: translateY(110vh) rotate(360deg) translateX(0);
+        opacity: 0; /* Полностью исчезают в самом низу */
+    }
+}
+  </style>
+</head>
+<body>
+  <div class="glow glow1"></div>
+  <div class="glow glow2"></div>
+
+  <div class="decor d1">🎈</div>
+  <div class="decor d2">✨</div>
+  <div class="decor d3">🎉</div>
+  <div class="decor d4">💖</div>
+
+  <div class="container">
+    <div id="start-screen" style="position:fixed; inset:0; background:linear-gradient(135deg,#ff9ecf,#b58cff,#8cc8ff); display:flex; align-items:center; justify-content:center; z-index:9999;">
+    <div style="background:rgba(255,255,255,0.15); backdrop-filter:blur(15px); border:1px solid rgba(255,255,255,0.3); border-radius:40px; padding:60px 40px; text-align:center; box-shadow:0 15px 40px rgba(0,0,0,0.2); max-width:500px; width:90%;">
+      <h2 style="color:white; font-size:42px; margin-bottom:20px;">Для тебя 🎁</h2>
+      <p style="color:white; font-size:20px; margin-bottom:35px; line-height:1.6;">Нажми на кнопку, чтобы открыть сюрприз</p>
+      <button id="openBtn" style="padding:18px 40px; font-size:22px; border:none; border-radius:20px; background:white; color:#a14cff; cursor:pointer; font-weight:bold; box-shadow:0 8px 20px rgba(0,0,0,0.2); transition:0.3s;">Нажми</button>
+    </div>
+  </div>
+
+  <div id="errorPopup" style="display:none; position:fixed; inset:0; z-index:10005; background:rgba(0,0,0,0.8); align-items:center; justify-content:center;">
+    <div style="background:white; border-radius:25px; padding:30px; max-width:400px; text-align:center; position:relative;">
+        <h3 style="font-size:28px; margin-bottom:15px; color:#a14cff;">Ошибка</h3>
+        <p style="font-size:18px; color:#444; line-height:1.5;">Извините, это действие сейчас недоступно.</p>
+        <button id="closePopup" style="margin-top:20px; padding:12px 25px; border:none; border-radius:15px; background:#a14cff; color:white; font-size:18px; cursor:pointer; position:relative; z-index:10006;">OK</button>
+    </div>
+</div>
+
+  <div class="header">
+      <h1>С Днём Рождения!</h1>
+      <p>
+        Пусть этот день будет наполнен счастьем, улыбками, подарками и самыми яркими моментами!
+      </p>
+
+     
+    </div>
+
+    <div class="photos">
+      <h2>Любимые фотографии</h2>
+
+      <div class="photo-grid">
+        <div class="photo-box"><img src="./43c731a2-9e7d-4743-9d52-dc3ddf77d286.jpg" alt="фото 1"></div>
+        <div class="photo-box"><img src="./45bdd5cd-3260-44ad-b9da-eb480b224c20.jpg" alt="фото 1"></div>
+        <div class="photo-box"><img src="" ></div>
+        <div class="photo-box"><img src="" ></div>
+        
+      </div>
+    </div>
+
+    <div class="message">
+      <h3>Лучшие пожелания</h3>
+      <p>
+       С Днём Рождения!
+Пусть этот день станет для тебя началом новой, прекрасной главы. 
+<br><br>Как говорил Виктор Гюго: «У каждого человека три характера: тот, который ему приписывают; тот, который он сам себе приписывает; и, наконец, тот, который есть в действительности». 
+Я желаю тебе всегда оставаться собой и находить гармонию в своей истинной сути.
+
+<br></br>Пусть твоя жизнь будет наполнена тем светом, о котором писал Антуан де Сент-Экзюпери: «Самого главного глазами не увидишь — зорко одно лишь сердце». 
+
+Желаю тебе встречать людей с такой же глубиной и видеть красоту в самых простых мелочах.
+<br></br>И помни слова Марка Твена: «Через двадцать лет вы будете больше разочарованы теми вещами, которые вы не делали, чем теми, которые вы сделали. 
+Так развяжите узлы, чутко ловите попутный ветер в свои паруса. Исследуйте. Мечтайте. Открывайте».
+
+
+<br></br>Будь счастлива, твори свою историю смело и вдохновенно!
+      </p>
+    </div>
+  </div>
+  <script>
+    let clickCount = 0;
+
+    const openBtn = document.getElementById('openBtn');
+    const popup = document.getElementById('errorPopup');
+    const closePopup = document.getElementById('closePopup');
+    const startScreen = document.getElementById('start-screen');
+
+    openBtn.addEventListener('click', () => {
+      clickCount++;
+
+      if (clickCount <= 2) {
+        popup.style.display = 'flex';
+      } else {
+        startScreen.style.display = 'none';
+      }
+    });
+
+    
+function createEmoji() {
+    
+    const emojis = ['❤️', '🔥', '💖', '✨', '😍', '💘', '💥'];
+    const emoji = document.createElement('div');
+    
+    // Настройки внешнего вида
+    emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+    emoji.classList.add('falling-emoji');
+    
+    // Случайная позиция и размер
+    const startPosition = Math.random() * 100; // от 0 до 100% ширины экрана
+    const size = Math.random() * 20 + 15;      // размер от 15px до 35px
+    
+    // Случайная скорость падения
+    const duration = Math.random() * 3 + 2;    // от 2 до 5 секунд
+    
+    emoji.style.left = startPosition + "vw";
+    emoji.style.fontSize = size + "px";
+    emoji.style.animationDuration = duration + "s";
+    
+    document.body.appendChild(emoji);
+
+    // Удаляем элемент из памяти после завершения анимации
+    setTimeout(() => {
+        emoji.remove();
+    }, 5000);
+}
+
+// Частота появления (сейчас каждые 100мс = 10 штук в секунду)
+// Если хочешь ЕЩЕ БОЛЬШЕ, поставь 50 вместо 100
+setInterval(createEmoji, 50);
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const popup = document.getElementById('errorPopup');
+    const closeBtn = document.getElementById('closePopup');
+
+    // Проверяем, существуют ли элементы, чтобы не было ошибки в консоли
+    if (popup && closeBtn) {
+        closeBtn.onclick = function(e) {
+            // Предотвращаем любые другие действия
+            e.preventDefault();
+            
+            // Скрываем окно
+            popup.style.display = 'none';
+            
+            console.log('Окно закрыто успешно');
+        };
+    } else {
+        console.error('Не удалось найти popup или кнопку. Проверь ID в HTML!');
+    }
+});
+
+  </script>
+</body>
+</html>
